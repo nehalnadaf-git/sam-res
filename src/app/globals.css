@@ -1,0 +1,286 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-cream: #F0EBE3;
+  --color-bg-cream-light: #F5F0E8;
+  --color-bg-dark: #1E2B28;
+  --color-bg-dark-card: #2A3B36;
+  --color-accent-teal: #B8860B;
+  --color-accent-teal-hover: #A07808;
+  --color-accent-teal-light: #D4A843;
+  --color-text-primary: #2A2522;
+  --color-text-secondary: #6B6560;
+  --color-text-on-dark: #F5F0E8;
+  --color-text-on-dark-muted: #A09A94;
+  --color-id-card-gray: #9A9590;
+  --color-folder-blue: #5BBCFF;
+  --color-stamp-green: #4A7C6F;
+  --color-note-mint: #D8F0E8;
+  --color-note-green: #E0F0E0;
+  --color-note-blue: #D8EBF5;
+  --color-note-yellow: #F0F0D0;
+  --color-dot-grid: #D5D0C8;
+  --color-border-light: #D5CFC6;
+  --color-paper-yellow: #F5EEC0;
+  --color-paper-beige: #F0E8D8;
+  --color-paper-pink: #E8E0D8;
+  --color-success-green: #5A9A50;
+  --color-linkedin-blue: #0A66C2;
+  --color-instagram-pink: #E4405F;
+  --color-behance-blue: #1769FF;
+  --color-twitter-black: #1A1A1A;
+
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-script: var(--font-script), 'Caveat', cursive;
+  --font-hand: var(--font-hand), 'Kalam', cursive;
+  --font-outfit: var(--font-outfit), 'Outfit', system-ui, sans-serif;
+}
+
+/* ─────────────────────────────────────────────────────────
+   BASE STYLES
+   ───────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans), 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Skip expensive legibility pass — big win on low-end devices */
+  text-rendering: optimizeSpeed;
+}
+
+/* ─────────────────────────────────────────────────────────
+   PERFORMANCE: Style containment only
+   contain:style limits style recalc scope without creating
+   a new containing block (which would break fixed modals).
+   contain:layout is intentionally EXCLUDED — it traps
+   position:fixed children inside the section boundary.
+   ───────────────────────────────────────────────────────── */
+section {
+  contain: style;
+}
+footer {
+  contain: style;
+}
+
+/* ─────────────────────────────────────────────────────────
+   Dot grid background
+   ───────────────────────────────────────────────────────── */
+.dot-grid-bg {
+  background-color: #F0EBE3;
+  background-image: radial-gradient(circle, #D5D0C8 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+/* ─────────────────────────────────────────────────────────
+   MARQUEE — GPU-composited
+   translate3d forces its own compositor layer so the
+   animation never triggers a repaint on the main thread.
+   ───────────────────────────────────────────────────────── */
+@keyframes marquee-scroll {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.animate-marquee {
+  animation: marquee-scroll 18s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.animate-marquee-slow {
+  animation: marquee-scroll 28s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────
+   LANYARD SWAY — GPU layer
+   ───────────────────────────────────────────────────────── */
+@keyframes lanyard-sway {
+  0%, 100% { transform: rotate(-1deg); }
+  50%       { transform: rotate(1deg); }
+}
+
+.animate-lanyard-sway {
+  animation: lanyard-sway 4s ease-in-out infinite;
+  transform-origin: top center;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────
+   NOTE FLOAT — GPU layer per element
+   ───────────────────────────────────────────────────────── */
+@keyframes note-float {
+  0%, 100% { transform: translate3d(0, -3px, 0); }
+  50%       { transform: translate3d(0,  3px, 0); }
+}
+
+.animate-note-float-1 {
+  animation: note-float 3s ease-in-out infinite;
+  animation-delay: 0s;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.animate-note-float-2 {
+  animation: note-float 3.2s ease-in-out infinite;
+  animation-delay: 0.5s;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.animate-note-float-3 {
+  animation: note-float 2.8s ease-in-out infinite;
+  animation-delay: 1s;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.animate-note-float-4 {
+  animation: note-float 3.4s ease-in-out infinite;
+  animation-delay: 1.5s;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────
+   CIRCULAR TEXT ROTATION — GPU layer
+   ───────────────────────────────────────────────────────── */
+@keyframes circular-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.animate-circular-rotate {
+  animation: circular-rotate 20s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────
+   SCROLL BADGE FLOAT
+   ───────────────────────────────────────────────────────── */
+@keyframes scroll-badge-float {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: 1; }
+  50%       { transform: translate3d(-8px, 0, 0); opacity: 0.7; }
+}
+
+.animate-scroll-badge-float {
+  animation: scroll-badge-float 2.5s ease-in-out infinite;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────
+   SCROLL FADE IN
+   ───────────────────────────────────────────────────────── */
+.scroll-fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.scroll-fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+
+/* ─────────────────────────────────────────────────────────
+   NAV LINK UNDERLINE
+   ───────────────────────────────────────────────────────── */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #B8860B;
+  transition: width 200ms ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ─────────────────────────────────────────────────────────
+   STICKY NOTE CURL
+   ───────────────────────────────────────────────────────── */
+.note-curl::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.08) 50%);
+  border-top-left-radius: 8px;
+}
+
+/* ─────────────────────────────────────────────────────────
+   POSTAGE STAMP ZIGZAG BORDER
+   ───────────────────────────────────────────────────────── */
+.stamp-border {
+  position: relative;
+}
+
+.stamp-border::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  background: #4A7C6F;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cpath d='M0 10 L5 0 L10 10 L15 0 L20 10 L15 20 L10 10 L5 20 Z' fill='black'/%3E%3C/svg%3E") 0 0 / 10px 10px;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cpath d='M0 10 L5 0 L10 10 L15 0 L20 10 L15 20 L10 10 L5 20 Z' fill='black'/%3E%3C/svg%3E") 0 0 / 10px 10px;
+  z-index: -1;
+}
+
+/* ─────────────────────────────────────────────────────────
+   HIDE SCROLLBAR IN HORIZONTAL SLIDERS (MOBILE)
+   ───────────────────────────────────────────────────────── */
+.slider-hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─────────────────────────────────────────────────────────
+   CUSTOM SCROLLBAR
+   ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F0EBE3;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4A843;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B8860B;
+}
+
+/* ─────────────────────────────────────────────────────────
+   ACCESSIBILITY: Reduced motion
+   Respect system preference — stop all animations instantly.
+   ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

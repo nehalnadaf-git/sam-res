@@ -1,0 +1,29 @@
+import type { MetadataRoute } from 'next';
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'Samiulla Shaikh — Senior Guest Service Associate',
+    short_name: 'Samiulla',
+    description:
+      'Portfolio of Samiulla Shaikh — Senior Guest Service Associate with expertise in customer service, food & beverage, and hospitality operations.',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#F0EBE3',
+    theme_color: '#F0EBE3',
+    orientation: 'portrait-primary',
+    icons: [
+      {
+        src: '/web-app-manifest-192x192.png',
+        sizes: '192x192',
+        type: 'image/png',
+        purpose: 'maskable',
+      },
+      {
+        src: '/web-app-manifest-512x512.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'maskable',
+      },
+    ],
+  };
+}
