@@ -623,6 +623,26 @@ export default function TestimonialsSection() {
     setSelectedCard(null);
   }, []);
 
+  /* Pause blob animations when section is off-screen */
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const blobContainer = section.querySelector('.max-w-\\[1200px\\]') as HTMLElement | null;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!blobContainer) return;
+        if (entry.isIntersecting) {
+          blobContainer.classList.remove('ac-blobs-paused');
+        } else {
+          blobContainer.classList.add('ac-blobs-paused');
+        }
+      },
+      { threshold: 0.05 }
+    );
+    io.observe(section);
+    return () => io.disconnect();
+  }, []);
+
   // Bug fix 4: wrap in useCallback so the auto-slide interval always has
   // a stable reference (avoids stale-closure issue with setInterval).
   const goToSlide = useCallback((i: number) => {
@@ -745,13 +765,12 @@ export default function TestimonialsSection() {
       
       {/* Liquid glass styling & backdrop blobs */}
       <style>{`
-        /* Glowing background blobs for achievements */
+        /* Glowing background blobs — GPU-composited, no mix-blend-mode */
         .ac-blob {
           position: absolute;
           border-radius: 50%;
-          filter: blur(55px);
-          opacity: 0.18;
-          mix-blend-mode: multiply;
+          filter: blur(20px);
+          opacity: 0.16;
           pointer-events: none;
           will-change: transform;
           z-index: 0;
@@ -759,42 +778,48 @@ export default function TestimonialsSection() {
         .ac-blob-1 {
           width: 320px;
           height: 320px;
-          background: radial-gradient(circle, rgba(194,132,59,0.55) 0%, rgba(194,132,59,0) 70%);
+          background: radial-gradient(circle, rgba(194,132,59,0.5) 0%, rgba(194,132,59,0) 70%);
           left: -5%;
           top: 10%;
-          animation: ac-blob-move-1 16s ease-in-out infinite alternate;
+          animation: ac-blob-move-1 20s ease-in-out infinite alternate;
         }
         .ac-blob-2 {
           width: 340px;
           height: 340px;
-          background: radial-gradient(circle, rgba(124,58,237,0.45) 0%, rgba(124,58,237,0) 70%);
+          background: radial-gradient(circle, rgba(124,58,237,0.38) 0%, rgba(124,58,237,0) 70%);
           right: -5%;
           bottom: 10%;
-          animation: ac-blob-move-2 18s ease-in-out infinite alternate-reverse;
+          animation: ac-blob-move-2 22s ease-in-out infinite alternate-reverse;
         }
         .ac-blob-3 {
           width: 280px;
           height: 280px;
-          background: radial-gradient(circle, rgba(14,139,125,0.45) 0%, rgba(14,139,125,0) 70%);
+          background: radial-gradient(circle, rgba(14,139,125,0.38) 0%, rgba(14,139,125,0) 70%);
           left: 45%;
           top: 30%;
-          animation: ac-blob-move-3 14s ease-in-out infinite alternate;
+          animation: ac-blob-move-3 18s ease-in-out infinite alternate;
         }
 
         @keyframes ac-blob-move-1 {
-          0% { transform: translate(0px, 0px) scale(1); }
-          50% { transform: translate(50px, -20px) scale(1.15); }
-          100% { transform: translate(-30px, 40px) scale(0.9); }
+          0%   { transform: translate(0px, 0px) scale(1); }
+          50%  { transform: translate(30px, -15px) scale(1.08); }
+          100% { transform: translate(-20px, 25px) scale(0.93); }
         }
         @keyframes ac-blob-move-2 {
-          0% { transform: translate(0px, 0px) scale(1); }
-          50% { transform: translate(-45px, 30px) scale(0.85); }
-          100% { transform: translate(30px, -20px) scale(1.1); }
+          0%   { transform: translate(0px, 0px) scale(1); }
+          50%  { transform: translate(-28px, 20px) scale(0.9); }
+          100% { transform: translate(20px, -14px) scale(1.06); }
         }
         @keyframes ac-blob-move-3 {
-          0% { transform: translate(0px, 0px) scale(1); }
-          50% { transform: translate(-20px, -50px) scale(1.1); }
-          100% { transform: translate(40px, 30px) scale(0.95); }
+          0%   { transform: translate(0px, 0px) scale(1); }
+          50%  { transform: translate(-14px, -32px) scale(1.06); }
+          100% { transform: translate(25px, 20px) scale(0.96); }
+        }
+
+        /* Pause when section is off-screen */
+        .ac-blobs-paused .ac-blob { animation-play-state: paused; }
+        @media (prefers-reduced-motion: reduce) {
+          .ac-blob { animation: none !important; }
         }
 
         /* Glass highlight border transition */
