@@ -584,8 +584,8 @@ function GuestCheck({
 
         {/* ── Paper shadows ── */}
         <filter id={`shadow-${id}`} x="-20%" y="-15%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="14" stdDeviation="14" floodColor="#2A2522" floodOpacity="0.13" />
-          <feDropShadow dx="0" dy="4"  stdDeviation="5.5"  floodColor="#2A2522" floodOpacity="0.08" />
+          <feDropShadow dx="0" dy="8" stdDeviation="8" floodColor="#2A2522" floodOpacity="0.11" />
+          <feDropShadow dx="0" dy="3" stdDeviation="4"  floodColor="#2A2522" floodOpacity="0.07" />
         </filter>
 
         {/* ── Tabletop item shadow ── */}
@@ -604,8 +604,8 @@ function GuestCheck({
           stroke={`url(#glass-edge-grad-${id})`}
           strokeWidth="1.2"
           style={{
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
+            // backdropFilter is non-functional on SVG path elements — removed
+            // to eliminate unnecessary GPU layer allocation per card
           }}
         />
 
@@ -1133,6 +1133,28 @@ export default function WorkFinderSection() {
     setSelectedTitle(null);
   }, []);
 
+  /* ── Pause blob animations when section is off-screen ────────────────
+     Blobs have will-change:transform + filter:blur — even GPU-composited
+     they consume power when animating. Pause them when not visible.     */
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        const comp = compositionRef.current;
+        if (!comp) return;
+        if (entry.isIntersecting) {
+          comp.classList.remove('wf-blobs-paused');
+        } else {
+          comp.classList.add('wf-blobs-paused');
+        }
+      },
+      { threshold: 0.05 }
+    );
+    io.observe(section);
+    return () => io.disconnect();
+  }, []);
+
 
   const { items: layouts, containerW, containerH, bagW, bagH } =
     computeLayout(projects.length);
@@ -1244,13 +1266,14 @@ export default function WorkFinderSection() {
         .wf-lift{transition:transform .32s cubic-bezier(.4,0,.2,1)}
         .wf-lift:hover{transform:translateY(-18px)}
 
-        /* Glowing background liquid glassmorphism blobs */
+        /* Glowing background blobs — GPU-composited only, no mix-blend-mode
+           (mix-blend-mode forces software rendering; removing it allows the
+           browser to fully GPU-composite via will-change:transform) */
         .wf-blob {
           position: absolute;
           border-radius: 50%;
-          filter: blur(50px);
-          opacity: 0.22;
-          mix-blend-mode: multiply;
+          filter: blur(20px);
+          opacity: 0.18;
           pointer-events: none;
           will-change: transform;
           z-index: 0;
@@ -1258,42 +1281,48 @@ export default function WorkFinderSection() {
         .wf-blob-1 {
           width: 320px;
           height: 320px;
-          background: radial-gradient(circle, rgba(14,139,125,0.7) 0%, rgba(14,139,125,0) 70%);
+          background: radial-gradient(circle, rgba(14,139,125,0.55) 0%, rgba(14,139,125,0) 70%);
           left: 10%;
           top: 0px;
-          animation: wf-blob-move-1 14s ease-in-out infinite alternate;
+          animation: wf-blob-move-1 18s ease-in-out infinite alternate;
         }
         .wf-blob-2 {
           width: 340px;
           height: 340px;
-          background: radial-gradient(circle, rgba(217,119,6,0.6) 0%, rgba(217,119,6,0) 70%);
+          background: radial-gradient(circle, rgba(217,119,6,0.5) 0%, rgba(217,119,6,0) 70%);
           right: 15%;
           bottom: 20px;
-          animation: wf-blob-move-2 16s ease-in-out infinite alternate-reverse;
+          animation: wf-blob-move-2 20s ease-in-out infinite alternate-reverse;
         }
         .wf-blob-3 {
           width: 280px;
           height: 280px;
-          background: radial-gradient(circle, rgba(239,68,68,0.6) 0%, rgba(239,68,68,0) 70%);
+          background: radial-gradient(circle, rgba(239,68,68,0.5) 0%, rgba(239,68,68,0) 70%);
           left: 38%;
           top: 100px;
-          animation: wf-blob-move-3 12s ease-in-out infinite alternate;
+          animation: wf-blob-move-3 16s ease-in-out infinite alternate;
         }
 
         @keyframes wf-blob-move-1 {
-          0% { transform: translate(0px, 0px) scale(1); }
-          50% { transform: translate(45px, -30px) scale(1.15); }
-          100% { transform: translate(-20px, 15px) scale(0.9); }
+          0%   { transform: translate(0px, 0px) scale(1); }
+          50%  { transform: translate(30px, -20px) scale(1.08); }
+          100% { transform: translate(-15px, 10px) scale(0.94); }
         }
         @keyframes wf-blob-move-2 {
-          0% { transform: translate(0px, 0px) scale(1); }
-          50% { transform: translate(-40px, 40px) scale(0.85); }
-          100% { transform: translate(30px, -15px) scale(1.1); }
+          0%   { transform: translate(0px, 0px) scale(1); }
+          50%  { transform: translate(-25px, 25px) scale(0.9); }
+          100% { transform: translate(20px, -10px) scale(1.06); }
         }
         @keyframes wf-blob-move-3 {
-          0% { transform: translate(0px, 0px) scale(1); }
-          50% { transform: translate(-15px, -45px) scale(1.08); }
-          100% { transform: translate(25px, 30px) scale(0.95); }
+          0%   { transform: translate(0px, 0px) scale(1); }
+          50%  { transform: translate(-10px, -30px) scale(1.05); }
+          100% { transform: translate(18px, 20px) scale(0.96); }
+        }
+
+        /* Pause blob animations when section is off-screen */
+        .wf-blobs-paused .wf-blob { animation-play-state: paused; }
+        @media (prefers-reduced-motion: reduce) {
+          .wf-blob { animation: none !important; }
         }
 
         /* Reactive glass shine reflection */
