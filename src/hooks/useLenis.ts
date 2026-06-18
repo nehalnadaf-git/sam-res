@@ -40,7 +40,6 @@ export function useLenis() {
     // syncToNative keeps it in sync with the browser paint cycle
     const lenis = new Lenis({
       lerp: 0.14,
-      syncToNative: false,
       smoothWheel: true,
       wheelMultiplier: 1.0,
       touchMultiplier: 2.0,
