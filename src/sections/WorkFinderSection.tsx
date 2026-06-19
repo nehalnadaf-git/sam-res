@@ -20,8 +20,8 @@ const projects = [
   },
   {
     name: 'Al Baik',
-    link: 'https://wa.me/917338564132',
-    certificate: null,
+    link: '',
+    certificate: 'currently_working',
   },
   {
     name: 'Wind Mills Env.',
@@ -890,15 +890,18 @@ function CertificateModal({
   const caption =
     title === 'Taj Gateway Hotel'   ? 'Taj Hotels Resorts & Palaces ✦' :
     title === 'Tara Emerald Hotel'  ? 'Tara Emerald Hospitality ✦' :
+    title === 'Al Baik'             ? 'Al Baik Restaurant Group ✦' :
                                       'TotalEnvironment Hospitality ✦';
 
   const tapeColor =
     title === 'Taj Gateway Hotel'   ? '#FCD34D' :
-    title === 'Tara Emerald Hotel'  ? '#A7F3D0' : '#93C5FD';
+    title === 'Tara Emerald Hotel'  ? '#A7F3D0' :
+    title === 'Al Baik'             ? '#FCA5A5' : '#93C5FD';
 
   const glowColor =
     title === 'Taj Gateway Hotel'   ? 'rgba(251, 191, 36, 0.45)' :
-    title === 'Tara Emerald Hotel'  ? 'rgba(52, 211, 153, 0.45)' : 'rgba(96, 165, 250, 0.45)';
+    title === 'Tara Emerald Hotel'  ? 'rgba(52, 211, 153, 0.45)' :
+    title === 'Al Baik'             ? 'rgba(239, 68, 68, 0.45)' : 'rgba(96, 165, 250, 0.45)';
 
   const washiBg = `repeating-linear-gradient(45deg, ${tapeColor}D8, ${tapeColor}D8 4px, ${tapeColor}C0 4px, ${tapeColor}C0 8px)`;
 
@@ -1011,14 +1014,68 @@ function CertificateModal({
             position: 'relative',
           }}
         >
-          {/* Image ── scrollable if very tall on mobile */}
+          {/* Image or Currently Working Card ── scrollable if very tall on mobile */}
           <div style={{ overflowY: 'auto', maxHeight: 'calc(92vh - 220px)', borderRadius: '1px' }}>
-            <img
-              ref={imageRef}
-              src={image}
-              alt={caption}
-              style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '1px' }}
-            />
+            {image === 'currently_working' ? (
+              <div
+                style={{
+                  width: '100%',
+                  aspectRatio: '1.25 / 1',
+                  background: 'linear-gradient(135deg, #FFFDF9 0%, #FAF3E6 100%)',
+                  border: '2px solid #D97706',
+                  borderRadius: '6px',
+                  padding: '24px 20px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'relative',
+                  boxShadow: 'inset 0 0 40px rgba(217, 119, 6, 0.05)',
+                }}
+              >
+                {/* Decorative corners */}
+                <div style={{ position: 'absolute', top: '8px', left: '8px', width: '12px', height: '12px', borderTop: '2px solid #D97706', borderLeft: '2px solid #D97706' }} />
+                <div style={{ position: 'absolute', top: '8px', right: '8px', width: '12px', height: '12px', borderTop: '2px solid #D97706', borderRight: '2px solid #D97706' }} />
+                <div style={{ position: 'absolute', bottom: '8px', left: '8px', width: '12px', height: '12px', borderBottom: '2px solid #D97706', borderLeft: '2px solid #D97706' }} />
+                <div style={{ position: 'absolute', bottom: '8px', right: '8px', width: '12px', height: '12px', borderBottom: '2px solid #D97706', borderRight: '2px solid #D97706' }} />
+
+                {/* Badge/Seal icon */}
+                <div style={{ color: '#D97706', marginBottom: '8px' }}>
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                  </svg>
+                </div>
+
+                <h4 style={{ fontFamily: "'Outfit', sans-serif", fontSize: '14px', fontWeight: 800, color: '#991B1B', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px 0' }}>
+                  ACTIVE EMPLOYMENT
+                </h4>
+                
+                <div style={{ height: '1px', width: '60px', backgroundColor: '#D97706', margin: '4px 0 10px 0' }} />
+
+                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', color: '#374151', textAlign: 'center', lineHeight: 1.5, margin: '0 0 14px 0', maxWidth: '320px' }}>
+                  This certifies that <strong style={{ color: '#111827' }}>Samiulla Shaikh</strong> is currently employed as a <strong style={{ color: '#111827' }}>Senior Guest Service Associate</strong> at Al Baik.
+                </p>
+
+                <div style={{ display: 'flex', gap: '20px', fontSize: '10px', fontFamily: "'Inter', sans-serif", color: '#4B5563' }}>
+                  <div>
+                    <span style={{ display: 'block', fontSize: '8px', textTransform: 'uppercase', color: '#9CA3AF', letterSpacing: '0.05em' }}>Start Date</span>
+                    <strong>March 2024</strong>
+                  </div>
+                  <div style={{ width: '1px', backgroundColor: '#E5E7EB' }} />
+                  <div>
+                    <span style={{ display: 'block', fontSize: '8px', textTransform: 'uppercase', color: '#9CA3AF', letterSpacing: '0.05em' }}>Status</span>
+                    <strong style={{ color: '#059669' }}>Present (Active)</strong>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <img
+                ref={imageRef}
+                src={image}
+                alt={caption}
+                style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '1px' }}
+              />
+            )}
           </div>
 
           {/* Polaroid caption */}
