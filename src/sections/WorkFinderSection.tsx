@@ -888,10 +888,10 @@ function CertificateModal({
   };
 
   const caption =
-    title === 'Taj Gateway Hotel'   ? 'Taj Hotels Resorts & Palaces ✦' :
-    title === 'Tara Emerald Hotel'  ? 'Tara Emerald Hospitality ✦' :
-    title === 'Al Baik'             ? 'Al Baik Restaurant Group ✦' :
-                                      'TotalEnvironment Hospitality ✦';
+    title === 'Taj Gateway Hotel'   ? 'Taj Hotels Resorts & Palaces' :
+    title === 'Tara Emerald Hotel'  ? 'Tara Emerald Hospitality' :
+    title === 'Al Baik'             ? 'Al Baik Restaurant Group' :
+                                      'TotalEnvironment Hospitality';
 
   const tapeColor =
     title === 'Taj Gateway Hotel'   ? '#FCD34D' :
@@ -1121,7 +1121,7 @@ function CertificateModal({
               />
               <text fontSize="4.6" fontWeight="bold" fill="#0E8B7D" letterSpacing="0.6">
                 <textPath href="#seal-text-path" startOffset="10%">
-                  ✦ VERIFIED CREDENTIAL ✦
+                  VERIFIED CREDENTIAL
                 </textPath>
               </text>
               {/* Center checkmark */}

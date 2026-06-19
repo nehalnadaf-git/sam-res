@@ -523,7 +523,7 @@ function CertificateModal({
               letterSpacing: '0.02em',
             }}
           >
-            Verified Credential ✦
+            Verified Credential
           </div>
 
           {/* Ink Stamp Seal */}
@@ -551,7 +551,7 @@ function CertificateModal({
               />
               <text fontSize="4.6" fontWeight="bold" fill="#0E8B7D" letterSpacing="0.6">
                 <textPath href="#seal-text-path-testimonials" startOffset="10%">
-                  ✦ VERIFIED CREDENTIAL ✦
+                  VERIFIED CREDENTIAL
                 </textPath>
               </text>
               {/* Center checkmark */}
