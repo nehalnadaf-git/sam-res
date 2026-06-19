@@ -294,8 +294,6 @@ function CertificateModal({
     // prevent scroll
     document.body.style.overflow = 'hidden';
 
-    const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
-
     const isMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
     const tl = gsap.timeline();
 
