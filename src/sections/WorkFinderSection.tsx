@@ -794,29 +794,35 @@ function CertificateModal({
     // prevent scroll
     document.body.style.overflow = 'hidden';
 
-    const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+    const isMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    const tl = gsap.timeline();
 
-    // GSAP cannot tween backdropFilter — the inline style already has blur(16px)
-    // applied on the overlay element. Just animate opacity.
     tl.fromTo(overlay,
       { opacity: 0 },
-      { opacity: 1, duration: 0.32 },
+      { opacity: 1, duration: isMobile ? 0.18 : 0.30, ease: 'power2.out' },
     );
 
-    // Card drops in from slightly above, with bounce
-    tl.fromTo(card,
-      { opacity: 0, y: -48, scale: 0.88, rotation: -2 },
-      { opacity: 1, y: 0, scale: 1, rotation: -0.5, duration: 0.62, ease: 'back.out(1.7)' },
-      '-=0.16',
-    );
-
-    // Tape slaps on top with a subtle bounce
-    if (tape) {
-      tl.fromTo(tape,
-        { scaleX: 0, opacity: 0 },
-        { scaleX: 1, opacity: 1, duration: 0.3, ease: 'back.out(2)' },
-        '-=0.3',
+    if (isMobile) {
+      // Mobile: fast slide-in — no scale/3D (avoids layout thrash)
+      tl.fromTo(card,
+        { opacity: 0, y: -18 },
+        { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' },
+        '-=0.08',
       );
+    } else {
+      // Desktop: premium drop-in with bounce
+      tl.fromTo(card,
+        { opacity: 0, y: -48, scale: 0.88, rotation: -2 },
+        { opacity: 1, y: 0, scale: 1, rotation: -0.5, duration: 0.62, ease: 'back.out(1.7)' },
+        '-=0.16',
+      );
+      if (tape) {
+        tl.fromTo(tape,
+          { scaleX: 0, opacity: 0 },
+          { scaleX: 1, opacity: 1, duration: 0.3, ease: 'back.out(2)' },
+          '-=0.3',
+        );
+      }
     }
 
     return () => {
@@ -830,9 +836,15 @@ function CertificateModal({
     const card    = cardRef.current;
     if (!overlay || !card) { onClose(); return; }
 
+    const isMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
     const tl = gsap.timeline({ onComplete: onClose });
-    tl.to(card, { opacity: 0, y: 40, scale: 0.9, rotation: 2, duration: 0.28, ease: 'power3.in' });
-    tl.to(overlay, { opacity: 0, duration: 0.22 }, '-=0.12');
+    if (isMobile) {
+      tl.to(card, { opacity: 0, y: 16, duration: 0.18, ease: 'power2.in' });
+      tl.to(overlay, { opacity: 0, duration: 0.14 }, '-=0.06');
+    } else {
+      tl.to(card, { opacity: 0, y: 40, scale: 0.9, rotation: 2, duration: 0.28, ease: 'power3.in' });
+      tl.to(overlay, { opacity: 0, duration: 0.22 }, '-=0.12');
+    }
   }, [onClose]);
 
   /* ── keyboard ── */
@@ -927,16 +939,13 @@ function CertificateModal({
         style={{
           width: 'min(92vw, 520px)',
           maxHeight: '92vh',
-          background: 'linear-gradient(135deg, rgba(253, 251, 247, 0.78) 0%, rgba(253, 251, 247, 0.54) 100%)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          background: 'rgba(253, 251, 247, 0.97)',
           border: '1px solid rgba(255, 255, 255, 0.45)',
           borderRadius: '16px',
           padding: '24px 20px 20px',
           boxShadow:
             '0 40px 80px rgba(0,0,0,0.38), 0 12px 28px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.5), inset 0 -1px 0 rgba(0,0,0,0.04)',
           transform: 'rotate(-0.5deg)',
-          transformStyle: 'preserve-3d',
           zIndex: 10,
         }}
       >
@@ -961,8 +970,6 @@ function CertificateModal({
             width: '90px',
             height: '20px',
             background: washiBg,
-            backdropFilter: 'blur(4px)',
-            WebkitBackdropFilter: 'blur(4px)',
             borderLeft: '1px dashed rgba(255,255,255,0.45)',
             borderRight: '1px dashed rgba(255,255,255,0.45)',
             boxShadow: '0 2px 6px rgba(0,0,0,0.14)',
@@ -973,7 +980,7 @@ function CertificateModal({
         />
 
         {/* Header */}
-        <div className="text-center w-full mb-3" style={{ transform: 'translateZ(20px)' }}>
+        <div className="text-center w-full mb-3">
           <h3
             style={{
               fontFamily: "'Outfit', 'Inter', sans-serif",
@@ -996,15 +1003,12 @@ function CertificateModal({
         <div
           style={{
             width: '100%',
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.58) 0%, rgba(255, 255, 255, 0.32) 100%)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255, 255, 255, 0.50)',
+            background: 'rgba(255, 255, 255, 0.95)',
+            border: '1px solid rgba(200, 192, 182, 0.2)',
             padding: '10px 10px 40px',
             boxShadow: '0 8px 32px rgba(42,37,34,0.06), 0 1px 4px rgba(42,37,34,0.03)',
             borderRadius: '4px',
             position: 'relative',
-            transform: 'translateZ(30px)',
           }}
         >
           {/* Image ── scrollable if very tall on mobile */}
@@ -1088,10 +1092,8 @@ function CertificateModal({
             width: '32px',
             height: '32px',
             borderRadius: '50%',
-            backgroundColor: 'rgba(240, 235, 227, 0.5)',
-            backdropFilter: 'blur(5px)',
-            WebkitBackdropFilter: 'blur(5px)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
+            backgroundColor: 'rgba(240, 235, 227, 0.92)',
+            border: '1px solid rgba(200, 192, 182, 0.3)',
             color: '#6B6560',
             cursor: 'pointer',
             display: 'flex',
@@ -1099,7 +1101,6 @@ function CertificateModal({
             justifyContent: 'center',
             transition: 'background-color 0.18s, color 0.18s',
             zIndex: 30,
-            transform: 'translateZ(40px)',
           }}
           onMouseEnter={(e) => { 
             const el = e.currentTarget as HTMLButtonElement; 

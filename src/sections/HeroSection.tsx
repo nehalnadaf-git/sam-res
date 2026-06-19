@@ -596,10 +596,14 @@ export default function HeroSection() {
         tl.to(badge, { rotation: 0, y: 0, duration: 0.30, ease: 'power2.out', clearProps: 'willChange' });
 
         const idleAt = 3.0;
+        const isMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+        // Mobile: only 2 idle tweens (no 3D rotationX/Y — expensive compositor layers)
         gsap.to(badge, { rotation: 3.5, duration: 4.4, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: idleAt });
         gsap.to(badge, { y: 14, duration: 5.0, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: idleAt + 0.4 });
-        gsap.to(badge, { rotationX: 2, duration: 5.9, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: idleAt + 1.0 });
-        gsap.to(badge, { rotationY: 1.5, duration: 7.3, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: idleAt + 1.6 });
+        if (!isMobile) {
+          gsap.to(badge, { rotationX: 2, duration: 5.9, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: idleAt + 1.0 });
+          gsap.to(badge, { rotationY: 1.5, duration: 7.3, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: idleAt + 1.6 });
+        }
       });
 
       // ── Desktop widgets — premium scattered-desk stagger ──
@@ -625,16 +629,15 @@ export default function HeroSection() {
         mobileFolderWrapRef.current,
         mobileNoteWrapRef.current,
       ].filter(Boolean);
-      gsap.set(mobileWidgets, { willChange: 'transform, opacity', y: 45, scale: 0.85, opacity: 0 });
+      gsap.set(mobileWidgets, { willChange: 'transform, opacity', y: 40, opacity: 0 });
       gsap.to(mobileWidgets, {
         opacity: 1,
         y: 0,
-        scale: 1,
-        duration: 0.65,
-        ease: 'back.out(1.7)',
-        stagger: 0.10,
+        duration: 0.5,
+        ease: 'power3.out',
+        stagger: 0.09,
         delay: 1.5,
-        clearProps: 'willChange',
+        onComplete: () => gsap.set(mobileWidgets, { willChange: 'auto' }),
       });
     });
 

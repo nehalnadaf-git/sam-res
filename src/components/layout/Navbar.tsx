@@ -118,9 +118,7 @@ export default function Navbar() {
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         style={{
-          backgroundColor: 'rgba(240, 235, 227, 0.97)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          backgroundColor: 'rgba(240, 235, 227, 0.99)',
         }}
       >
         <div className="flex flex-col items-center justify-center h-full gap-8">
