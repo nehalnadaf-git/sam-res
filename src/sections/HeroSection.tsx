@@ -505,7 +505,7 @@ function IDCardBadge({
         {/* Inner card face */}
         <div style={{ borderRadius: mobile ? '8px' : '10px', overflow: 'hidden', background: '#FDFBF7', boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.06)' }}>
           <div className="relative overflow-hidden" style={{ height: `${photoH}px` }}>
-            <img src="/assets/samiullah.webp" alt="Samiulla Shaikh - Senior Guest Service Associate" className="w-full h-full object-cover object-[58%_center]" />
+            <img src="/assets/samiullah.webp" alt="Samiulla Shaikh - Senior Guest Service Associate" className="w-full h-full object-cover object-[45%_center]" />
             <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 -30px 50px rgba(0,0,0,0.08)' }} />
             <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%)' }} />
           </div>
