@@ -505,7 +505,7 @@ function IDCardBadge({
         {/* Inner card face */}
         <div style={{ borderRadius: mobile ? '8px' : '10px', overflow: 'hidden', background: '#FDFBF7', boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.06)' }}>
           <div className="relative overflow-hidden" style={{ height: `${photoH}px` }}>
-            <img src="/assets/samiullah.webp" alt="Samiulla Shaikh - Senior Guest Service Associate" className="w-full h-full object-cover scale-125" />
+            <img src="/assets/samiullah.webp" alt="Samiulla Shaikh - Senior Guest Service Associate" className="w-full h-full object-cover scale-[1.70]" />
             <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 -30px 50px rgba(0,0,0,0.08)' }} />
             <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%)' }} />
           </div>
@@ -687,9 +687,9 @@ export default function HeroSection() {
        *  DESKTOP LAYOUT
        * ═══════════════════════════════════════════════ */}
       <div className="hidden lg:grid relative z-20 grid-cols-3 gap-8 items-center max-w-[1100px] mx-auto px-4">
-        <div className="flex flex-col gap-6 items-end">
+        <div className="flex flex-col gap-4 items-end">
           <TodoList todoRef={todoRef} />
-          <div className="-mt-6">
+          <div className="mt-2">
             <ProfileBoard folderRef={folderRef} />
           </div>
         </div>
