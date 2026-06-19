@@ -1203,16 +1203,18 @@ export default function WorkFinderSection() {
       });
 
       if (isMobile) {
-        /* ── Mobile: snappy staggered entrance ── */
+        /* ── Mobile: snappy staggered entrance — no scale (avoid layout thrash) ── */
         gsap.set('.wf-bag', { willChange: 'transform, opacity' });
         gsap.from('.wf-bag', {
           opacity: 0,
-          y: 60,
-          scale: 0.7,
-          duration: 0.5,
-          stagger: { from: 'center', amount: 0.25 },
+          y: 50,
+          duration: 0.45,
+          stagger: { from: 'center', amount: 0.22 },
           ease: 'power3.out',
-          clearProps: 'willChange',
+          onComplete: () => {
+            // Re-apply will-change so the float animation stays GPU-composited
+            gsap.set('.wf-bag', { willChange: 'transform' });
+          },
           scrollTrigger: {
             trigger: sectionRef.current!,
             start: 'top 91%',
@@ -1367,17 +1369,20 @@ export default function WorkFinderSection() {
           100% { left: 150%; }
         }
         @keyframes wf-float {
-          0%   { transform: translateY(0px); }
-          50%  { transform: translateY(-18px); }
-          100% { transform: translateY(0px); }
+          0%   { transform: translate3d(0, 0px, 0); }
+          50%  { transform: translate3d(0, -14px, 0); }
+          100% { transform: translate3d(0, 0px, 0); }
         }
 
         @media (hover: none) and (pointer: coarse) {
+          .wf-blob { display: none; }
           .wf-lift {
-            animation: wf-float 2.8s ease-in-out infinite;
+            animation: wf-float 3.2s ease-in-out infinite;
             transition: none;
+            will-change: transform;
+            transform: translateZ(0);
           }
-          .wf-lift:hover { transform: none; }
+          .wf-lift:hover { transform: translateZ(0); }
         }
       `}</style>
 
@@ -1467,7 +1472,7 @@ export default function WorkFinderSection() {
                     height: `${bagH}px`,
                     zIndex: l.z,
                     cursor: hasLink ? 'pointer' : 'default',
-                    willChange: 'transform, opacity',
+                    willChange: 'transform',
                   }}
                 >
                   {/* hover lift layer — staggered float on mobile */}
