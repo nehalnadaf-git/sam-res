@@ -12,23 +12,23 @@ gsap.registerPlugin(ScrollTrigger);
  * Only real certifications & education — NO work history
  * ───────────────────────────────────────────────────────── */
 const cards = [
-  /* 1 ─ Senior Secondary (12th) */
+  /* 1 ─ TAJ Hotels Training Certificate */
   {
-    type: 'education',
-    badge: '12TH / HSC',
-    badgeColor: '#2563EB',
-    institution: 'BHARATH INST. OF SCHOOLING EDUCATION',
-    title: 'Senior Secondary (12th)',
-    period: 'Completed Dec 2023',
-    location: 'Bengaluru, Karnataka · Reg: 2312132047',
-    body: 'Passed the Senior Secondary Examination (10+2) recognized by the Government of Karnataka, securing a Second Class with a total score of 317/600. Subjects: Hindi, English, History, Economics, Business Studies, Accountancy.',
+    type: 'certificate',
+    badge: 'CERTIFIED',
+    badgeColor: '#B45309',
+    institution: 'TAJ HOTELS RESORTS & PALACES',
+    title: 'Industrial Exposure Training',
+    period: '7 Mar 2019 – 31 Aug 2019',
+    location: 'The Gateway Hotel, Mangalore',
+    body: 'Certified by Taj Hotels Resorts and Palaces for successfully completing Industrial Exposure Training in Front Office, Housekeeping, and Food & Beverage at The Gateway Hotel, Mangalore.',
     highlights: [],
-    paperBg: '#FAFBFD',
-    accentColor: '#2563EB',
-    stripeColor: '#1E3A8A',
-    tapeColor: '#93C5FD',
-    rotation: -2,
-    image: '/assets/certificates/12th.webp',
+    paperBg: '#F5EEC0',
+    accentColor: '#C2843B',
+    stripeColor: '#D4C97A',
+    tapeColor: '#FCD34D',
+    rotation: -1.5,
+    image: '/assets/certificates/Taj-hotels.webp',
   },
   /* 2 ─ Diploma in Hotel Management */
   {
@@ -48,23 +48,23 @@ const cards = [
     rotation: 2,
     image: '/assets/certificates/hotel-management.webp',
   },
-  /* 3 ─ TAJ Hotels Training Certificate */
+  /* 3 ─ Senior Secondary (12th) */
   {
-    type: 'certificate',
-    badge: 'CERTIFIED',
-    badgeColor: '#B45309',
-    institution: 'TAJ HOTELS RESORTS & PALACES',
-    title: 'Industrial Exposure Training',
-    period: '7 Mar 2019 – 31 Aug 2019',
-    location: 'The Gateway Hotel, Mangalore',
-    body: 'Certified by Taj Hotels Resorts and Palaces for successfully completing Industrial Exposure Training in Front Office, Housekeeping, and Food & Beverage at The Gateway Hotel, Mangalore.',
+    type: 'education',
+    badge: '12TH / HSC',
+    badgeColor: '#2563EB',
+    institution: 'BHARATH INST. OF SCHOOLING EDUCATION',
+    title: 'Senior Secondary (12th)',
+    period: 'Completed Dec 2023',
+    location: 'Bengaluru, Karnataka · Reg: 2312132047',
+    body: 'Passed the Senior Secondary Examination (10+2) recognized by the Government of Karnataka, securing a Second Class with a total score of 317/600. Subjects: Hindi, English, History, Economics, Business Studies, Accountancy.',
     highlights: [],
-    paperBg: '#F5EEC0',
-    accentColor: '#C2843B',
-    stripeColor: '#D4C97A',
-    tapeColor: '#FCD34D',
-    rotation: -1.5,
-    image: '/assets/certificates/Taj-hotels.webp',
+    paperBg: '#FAFBFD',
+    accentColor: '#2563EB',
+    stripeColor: '#1E3A8A',
+    tapeColor: '#93C5FD',
+    rotation: -2,
+    image: '/assets/certificates/12th.webp',
   },
   /* 4 ─ S.S.L.C. (10th) */
   {
