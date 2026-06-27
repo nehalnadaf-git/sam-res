@@ -12,23 +12,23 @@ gsap.registerPlugin(ScrollTrigger);
  * Only real certifications & education — NO work history
  * ───────────────────────────────────────────────────────── */
 const cards = [
-  /* 1 ─ TAJ Hotels Training Certificate */
+  /* 1 ─ Senior Secondary (12th) */
   {
-    type: 'certificate',
-    badge: 'CERTIFIED',
-    badgeColor: '#B45309',
-    institution: 'TAJ HOTELS RESORTS & PALACES',
-    title: 'Industrial Exposure Training',
-    period: '7 Mar 2019 – 31 Aug 2019',
-    location: 'The Gateway Hotel, Mangalore',
-    body: 'Certified by Taj Hotels Resorts and Palaces for successfully completing Industrial Exposure Training in Front Office, Housekeeping, and Food & Beverage at The Gateway Hotel, Mangalore.',
+    type: 'education',
+    badge: '12TH / HSC',
+    badgeColor: '#2563EB',
+    institution: 'BHARATH INST. OF SCHOOLING EDUCATION',
+    title: 'Senior Secondary (12th)',
+    period: 'Completed Dec 2023',
+    location: 'Bengaluru, Karnataka · Reg: 2312132047',
+    body: 'Passed the Senior Secondary Examination (10+2) recognized by the Government of Karnataka, securing a Second Class with a total score of 317/600. Subjects: Hindi, English, History, Economics, Business Studies, Accountancy.',
     highlights: [],
-    paperBg: '#F5EEC0',
-    accentColor: '#C2843B',
-    stripeColor: '#D4C97A',
-    tapeColor: '#FCD34D',
+    paperBg: '#FAFBFD',
+    accentColor: '#2563EB',
+    stripeColor: '#1E3A8A',
+    tapeColor: '#93C5FD',
     rotation: -2,
-    image: '/assets/certificates/Taj-hotels.webp',
+    image: '/assets/certificates/12th.webp',
   },
   /* 2 ─ Diploma in Hotel Management */
   {
@@ -47,6 +47,42 @@ const cards = [
     tapeColor: '#C4B5FD',
     rotation: 2,
     image: '/assets/certificates/hotel-management.webp',
+  },
+  /* 3 ─ TAJ Hotels Training Certificate */
+  {
+    type: 'certificate',
+    badge: 'CERTIFIED',
+    badgeColor: '#B45309',
+    institution: 'TAJ HOTELS RESORTS & PALACES',
+    title: 'Industrial Exposure Training',
+    period: '7 Mar 2019 – 31 Aug 2019',
+    location: 'The Gateway Hotel, Mangalore',
+    body: 'Certified by Taj Hotels Resorts and Palaces for successfully completing Industrial Exposure Training in Front Office, Housekeeping, and Food & Beverage at The Gateway Hotel, Mangalore.',
+    highlights: [],
+    paperBg: '#F5EEC0',
+    accentColor: '#C2843B',
+    stripeColor: '#D4C97A',
+    tapeColor: '#FCD34D',
+    rotation: -1.5,
+    image: '/assets/certificates/Taj-hotels.webp',
+  },
+  /* 4 ─ S.S.L.C. (10th) */
+  {
+    type: 'education',
+    badge: '10TH / SSLC',
+    badgeColor: '#0D9488',
+    institution: 'FATHIMA DAY HIGH SCHOOL',
+    title: 'S.S.L.C. (10th Standard)',
+    period: 'Completed June 2018',
+    location: 'Hubballi, Karnataka · Reg: 20180210195',
+    body: 'Successfully passed the S.S.L.C. Examination conducted by the Karnataka Secondary Education Examination Board (KSEEB). Secured B Grade (62.24% — 389/625). Subjects: Samskruta, English, Kannada, Mathematics, Science, Social Science.',
+    highlights: [],
+    paperBg: '#FAF9F5',
+    accentColor: '#0D9488',
+    stripeColor: '#115E59',
+    tapeColor: '#99F6E4',
+    rotation: 1.5,
+    image: '/assets/certificates/10th.webp',
   },
 ];
 
@@ -354,38 +390,7 @@ function CertificateModal({
     return () => window.removeEventListener('keydown', handler);
   }, [handleClose]);
 
-  /* ── 3D Interactive Parallax Tilt ── */
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
 
-    // Tilt max 4.5 degrees
-    const rotX = -(y / (rect.height / 2)) * 4.5;
-    const rotY = (x / (rect.width / 2)) * 4.5;
-
-    gsap.to(card, {
-      rotateX: rotX,
-      rotateY: rotY,
-      transformPerspective: 1000,
-      duration: 0.25,
-      ease: 'power2.out',
-    });
-  };
-
-  const handleMouseLeave = () => {
-    const card = cardRef.current;
-    if (!card) return;
-    gsap.to(card, {
-      rotateX: 0,
-      rotateY: 0,
-      rotation: -0.5,
-      duration: 0.45,
-      ease: 'power2.out',
-    });
-  };
 
   const washiBg = `repeating-linear-gradient(45deg, ${tapeColor}D8, ${tapeColor}D8 4px, ${tapeColor}C0 4px, ${tapeColor}C0 8px)`;
 
@@ -420,8 +425,6 @@ function CertificateModal({
       <div
         ref={cardRef}
         onClick={(e) => e.stopPropagation()}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
         className="relative flex flex-col items-center modal-shimmer-card"
         style={{
           width: 'min(92vw, 520px)',
@@ -945,7 +948,7 @@ export default function TestimonialsSection() {
         </div>
 
         {/* ── Desktop Grid ── */}
-        <div className="hidden md:grid md:grid-cols-2 max-w-3xl mx-auto gap-6 md:gap-8 relative z-10">
+        <div className="hidden md:grid md:grid-cols-4 max-w-6xl mx-auto gap-4 lg:gap-6 relative z-10">
           {cards.map((card, i) => (
             <AchievementCard
               key={i}
